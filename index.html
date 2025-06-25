@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hola</h1>
+</body>
+</html>
+
+<script type='text/javascript' src='js/StarWebPrintBuilder.js'></script>
+<script type='text/javascript' src='js/StarWebPrintTrader.js'></script>
+
+<script>
+var builder = new StarWebPrintBuilder();
+
+var request = '';
+request += builder.createInitializationElement();
+request += builder.createTextElement({data: 'Hello, World!\n'});
+request += builder.createCutPaperElement({feed: true});
+
+var url = "http://localhost:8001/StarWebPRNT/SendMessage";
+var trader = new StarWebPrintTrader({url: url});
+
+trader.onReceive = function(response) {
+    console.log("Print successful:", response);
+};
+
+trader.onError = function(response) {
+    console.error("Print error:", response);
+};
+
+trader.sendMessage({request: request});
+
+</script>
